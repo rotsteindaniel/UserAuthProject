@@ -1,0 +1,18 @@
+/* Estilos para a barra de navegação */
+.nav {
+  background-color: #333; /* Cor de fundo da navbar */
+  color: #fff; /* Cor do texto */
+  padding: 1rem;
+}
+
+.ul {
+  margin-top: 2rem;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.li {
+  margin-right: 1rem;
+}
