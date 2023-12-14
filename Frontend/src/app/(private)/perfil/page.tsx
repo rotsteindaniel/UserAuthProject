@@ -12,8 +12,10 @@ export default function Perfil() {
 
   return (
     <main className={styles.main}>
-      <p>{user?.name}</p>
-      <p>{user?.email}</p>
+      <div className={styles.card}>
+        <p>Olá {user?.name}</p>
+        <p>Seu email é {user?.email}</p>
+      </div>
     </main>
   );
 }
