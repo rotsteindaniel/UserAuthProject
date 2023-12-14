@@ -2,7 +2,6 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
 import * as z from "zod";
 
 import Link from "next/link";
@@ -12,10 +11,9 @@ import styles from "./page.module.css";
 import LoginCard from "../../../components/cards/logincard/login";
 import Input from "../../../components/forms/input/input";
 import Button from "../../../components/forms/button/button";
-import { useState } from "react";
+import { useContext } from "react";
 import { useRouter } from "next/navigation";
-import { useLogin } from "@/hooks/useLogin";
-import { useUserLogin } from "@/hooks/useUserLogin";
+import { AuthContext } from "@/contexts/AuthContext";
 
 export type SignInData = {
   email: string;
@@ -43,11 +41,11 @@ export default function Login() {
 
   const router = useRouter();
 
-  const { isLoading, error, login, token } = useUserLogin();
+  const { user, signIn, isAuthenticated } = useContext(AuthContext);
 
   async function handleSignIn({ email, password }: loginUserFormData) {
     try {
-      await login(email, password);
+      await signIn({ email, password });
       router.replace("/perfil");
     } catch (error) {
       // Handle login error if needed
