@@ -19,7 +19,7 @@ export type SignInData = {
 export type AuthContextType = {
   isAuthenticated: boolean;
   user: User | null;
-  signIn: (data: SignInData) => Promise<void>;
+  signIn: ({ email, password }: SignInData) => Promise<void>;
 };
 
 type AuthProviderProps = {
