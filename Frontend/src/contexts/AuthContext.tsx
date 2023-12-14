@@ -4,13 +4,11 @@ import { ReactNode, createContext, useEffect, useState } from "react";
 import { setCookie, parseCookies } from "nookies";
 import { useRouter } from "next/navigation";
 
-import { recoverUserInformation, signInRequest } from "../services/auth";
-import { api } from "../services/api";
+import axios from "axios";
 
 type User = {
   name: string;
   email: string;
-  avatar_url: string;
 };
 
 export type SignInData = {
@@ -20,7 +18,7 @@ export type SignInData = {
 
 export type AuthContextType = {
   isAuthenticated: boolean;
-  user: User;
+  user: User | null;
   signIn: (data: SignInData) => Promise<void>;
 };
 
@@ -37,6 +35,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const isAuthenticated = !!user;
 
+  async function recoverUserInformation() {
+    const { "nextauth.token": token } = parseCookies();
+
+    const response = await axios.get("http://localhost:3333/users/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const { email, name } = response.data;
+
+    return { user: { email, name } };
+  }
+
   useEffect(() => {
     const { "nextauth.token": token } = parseCookies();
 
@@ -48,20 +60,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   async function signIn({ email, password }: SignInData) {
-    const { token, user } = await signInRequest({
-      email,
-      password,
-    });
+    try {
+      const response = await axios.post("http://localhost:3333/sessions", {
+        email,
+        password,
+      });
 
-    setCookie(undefined, "nextauth.token", token, {
-      maxAge: 60 * 60 * 1, // 1 hour
-    });
+      const { token, user } = await response.data;
 
-    api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      setCookie(undefined, "nextauth.token", token, {
+        maxAge: 60 * 60 * 1, // 1 hour
+      });
 
-    setUser(user);
+      // Set Authorization header for all subsequent requests
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-    Router.push("/perfil");
+      setUser(user);
+
+      Router.push("/perfil");
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   }
 
   return (

@@ -14,6 +14,8 @@ import Input from "../../../components/forms/input/input";
 import Button from "../../../components/forms/button/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useLogin } from "@/hooks/useLogin";
+import { useUserLogin } from "@/hooks/useUserLogin";
 
 export type SignInData = {
   email: string;
@@ -23,9 +25,9 @@ export type SignInData = {
 const loginUserFormSchema = z.object({
   email: z
     .string()
-    .nonempty({ message: "O email é obrigatório" })
+    .min(1, { message: "O email é obrigatório" })
     .email({ message: "Campo obrigatório" }),
-  password: z.string().nonempty({ message: "A senha é obrigatória" }),
+  password: z.string().min(1, { message: "A senha é obrigatória" }),
 });
 
 type loginUserFormData = z.infer<typeof loginUserFormSchema>;
@@ -41,15 +43,16 @@ export default function Login() {
 
   const router = useRouter();
 
-  async function handleSignIn({ email, password }: SignInData) {
-    const response = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
+  const { isLoading, error, login, token } = useUserLogin();
 
-    console.log("[LOGIN_RESPONSE]: ", response);
-    router.replace("/perfil");
+  async function handleSignIn({ email, password }: loginUserFormData) {
+    try {
+      await login(email, password);
+      router.replace("/perfil");
+    } catch (error) {
+      // Handle login error if needed
+      console.error("Login error:", error);
+    }
   }
 
   return (

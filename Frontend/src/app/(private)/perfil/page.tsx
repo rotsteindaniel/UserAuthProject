@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import styles from "./page.module.css";
 import { AuthContext, AuthContextType } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
@@ -12,7 +12,8 @@ export default function Perfil() {
 
   return (
     <main className={styles.main}>
-      <p>Pagina com os dados do usuario</p>
+      <p>{user?.name}</p>
+      <p>{user?.email}</p>
     </main>
   );
 }
