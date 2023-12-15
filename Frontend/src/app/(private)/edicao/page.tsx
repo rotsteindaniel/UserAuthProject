@@ -1,3 +1,5 @@
+"use client";
+
 import { useContext, useEffect } from "react";
 import styles from "./page.module.css";
 import { useRouter } from "next/router";
