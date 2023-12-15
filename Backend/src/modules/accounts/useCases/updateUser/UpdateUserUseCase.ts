@@ -9,6 +9,8 @@ interface IRequest {
   id: string;
   name: string;
   email: string;
+  date: string;
+  gender: string;
 }
 
 @injectable()
@@ -17,7 +19,7 @@ class UpdateUserUseCase {
     @inject("UsersRepositoryInMemory")
     private UsersRepositoryInMemory: IUsersRepository
   ) {}
-  async execute({ id, name, email }: IRequest): Promise<IUserResponseDTO> {
+  async execute({ id, name, email, date, gender }: IRequest): Promise<IUserResponseDTO> {
     const user = await this.UsersRepositoryInMemory.findById(id);
 
     // Verifique se o usuário existe antes de tentar atualizá-lo
@@ -29,6 +31,8 @@ class UpdateUserUseCase {
     // Atualize os dados do usuário
     user.name = name;
     user.email = email;
+    user.date = date;
+    user.gender = gender;
 
     // Salve o usuário atualizado no repositório
     await this.UsersRepositoryInMemory.save(user);

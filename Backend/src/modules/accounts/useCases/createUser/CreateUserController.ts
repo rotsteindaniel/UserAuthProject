@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { z } from 'zod';
+import { z } from "zod";
 
 import { CreateUserUseCase } from "./CreateUserUseCase";
 import { BadRequestError } from "@shared/errors/ApiError";
@@ -10,17 +10,23 @@ class CreateUserController {
     const registerBodySchema = z.object({
       name: z.string(),
       email: z.string().email(),
+      date: z.string(),
+      gender: z.string(),
       password: z.string().min(6),
     });
 
     try {
-      const { name, email, password } = registerBodySchema.parse(request.body);
+      const { name, email, date, gender, password } = registerBodySchema.parse(
+        request.body
+      );
 
       const createUserUseCase = container.resolve(CreateUserUseCase);
 
       await createUserUseCase.execute({
         name,
         email,
+        date,
+        gender,
         password,
       });
 
@@ -32,20 +38,15 @@ class CreateUserController {
         // Tratar erros de validação aqui
         return response.status(400).json({
           errors: error.errors.map((err) => ({
-            path: err.path.join('.'),
+            path: err.path.join("."),
             message: err.message,
           })),
         });
       } else {
-        // Outros tipos de erros, como erros internos do servidor
-        console.error(error);
-        return response.status(500).json({
-          error: "Internal Server Error",
-        });
+        throw new BadRequestError("User already exists");
       }
     }
   }
 }
 
 export { CreateUserController };
-

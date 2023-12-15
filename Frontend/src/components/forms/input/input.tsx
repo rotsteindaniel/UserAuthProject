@@ -4,6 +4,7 @@ interface InputProps {
   register: any;
   name: string;
   [key: string]: any;
+  value?: string;
 }
 
 export default function Input({ register, name, ...props }: InputProps) {

@@ -23,6 +23,7 @@ export type AuthContextType = {
   user: User | null;
   signIn: ({ email, password }: SignInData) => Promise<void>;
   recoverUserInformation: () => Promise<void | { user: User }>; // Update return type
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 };
 
 type AuthProviderProps = {
@@ -33,6 +34,16 @@ export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const Router = useRouter();
+
+  useEffect(() => {
+    const { "nextauth.token": token } = parseCookies();
+
+    if (token) {
+      recoverUserInformation().then((response) => {
+        setUser(response.user);
+      });
+    }
+  }, []);
 
   const [user, setUser] = useState<User | null>(null);
 
@@ -52,15 +63,33 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return { user: { email, name, date, gender } };
   }
 
-  useEffect(() => {
+  async function updateUserInformation({
+    email,
+    name,
+    date,
+    gender,
+  }): Promise<{ user: User }> {
     const { "nextauth.token": token } = parseCookies();
 
-    if (token) {
-      recoverUserInformation().then((response) => {
-        setUser(response.user);
-      });
-    }
-  }, []);
+    const response = await axios.put(
+      "http://localhost:3333/users/profile/update",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          email,
+          name,
+          date,
+          gender,
+        }),
+      }
+    );
+
+    // const { email, name, date, gender } = response.data;
+
+    // return { user: { email, name, date, gender } };
+  }
 
   async function signIn({ email, password }: SignInData) {
     try {
@@ -88,7 +117,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, signIn, recoverUserInformation }}
+      value={{ user, isAuthenticated, signIn, recoverUserInformation, setUser }}
     >
       {children}
     </AuthContext.Provider>

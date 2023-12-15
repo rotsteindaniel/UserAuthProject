@@ -10,15 +10,17 @@ class UpdateUserController {
     const updateBodySchema = z.object({
       name: z.string(),
       email: z.string().email(),
+      date: z.string(),
+      gender: z.string()
     });
 
     try {
       const { id } = request.user;
-      const { name, email } = updateBodySchema.parse(request.body);
+      const { name, email, date, gender } = updateBodySchema.parse(request.body);
 
       const updateUserUseCase = container.resolve(UpdateUserUseCase);
 
-      const updatedUser = await updateUserUseCase.execute({ id, name, email });
+      const updatedUser = await updateUserUseCase.execute({ id, name, email, date, gender });
       return response.json({
         data: updatedUser,
         message: "User updated successfully",

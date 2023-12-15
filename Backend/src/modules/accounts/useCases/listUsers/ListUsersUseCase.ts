@@ -1,9 +1,6 @@
-import { hash } from "bcrypt";
 import { inject, injectable } from "tsyringe";
 
-import { ICreateUserDTO } from "@modules/accounts/dtos/ICreateUserDTO";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
-import { AppError } from "@shared/errors/ApiError";
 import { User } from "@sentry/node";
 
 @injectable()
@@ -19,10 +16,11 @@ class ListUsersUseCase {
     const users = usersData.map((user) => ({
       name: user.name,
       email: user.email,
+      date: user.date,
+      gender: user.gender,
     }));
 
     return users;
-
   }
 }
 

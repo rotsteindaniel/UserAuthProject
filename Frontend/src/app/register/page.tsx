@@ -38,7 +38,7 @@ const createUserFormSchema = z.object({
 export type CreateUserFormData = z.infer<typeof createUserFormSchema>;
 
 export default function Register() {
-  const router = useRouter();
+  const Router = useRouter();
   const { registerUser, isLoading, error } = useUserRegistration();
 
   const {
@@ -61,7 +61,7 @@ export default function Register() {
 
       // If the registration is successful, alert the user and navigate to the login page
       alert("Usuário cadastrado com sucesso!");
-      router.push("/login");
+      Router.push("/login");
     } catch (error) {
       // If there's an error, handle it and alert the user
       console.error("An error occurred during registration", error);
