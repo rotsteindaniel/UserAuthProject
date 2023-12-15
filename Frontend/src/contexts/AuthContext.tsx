@@ -9,6 +9,7 @@ import axios from "axios";
 type User = {
   email: string;
   name: string;
+  password?: string;
   date: string;
   gender: string;
 };
@@ -24,6 +25,8 @@ export type AuthContextType = {
   signIn: ({ email, password }: SignInData) => Promise<void>;
   recoverUserInformation: () => Promise<void | { user: User }>; // Update return type
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  registerUser: (user: User) => Promise<void | JSON>;
+  isLoading: boolean;
 };
 
 type AuthProviderProps = {
@@ -35,6 +38,7 @@ export const AuthContext = createContext({} as AuthContextType);
 export function AuthProvider({ children }: AuthProviderProps) {
   const Router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const { "nextauth.token": token } = parseCookies();
@@ -62,33 +66,51 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return { user: { email, name, date, gender } };
   }
 
-  async function updateUserInformation({
-    email,
-    name,
-    date,
-    gender,
-  }): Promise<{ user: User }> {
+  async function registerUser({ email, password, name, date, gender }: User) {
+    setIsLoading(true);
     const { "nextauth.token": token } = parseCookies();
 
-    const response = await axios.put(
-      "http://localhost:3333/users/profile/update",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          email,
-          name,
-          date,
-          gender,
-        }),
-      }
-    );
+    const response = await axios.post("http://localhost:3333/users", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    // const { email, name, date, gender } = response.data;
+    console.log(response);
+    setIsLoading(false);
+
+    // const { email, password, name, date, gender } = response.data;
 
     // return { user: { email, name, date, gender } };
   }
+
+  // async function updateUserInformation({
+  //   email,
+  //   name,
+  //   date,
+  //   gender,
+  // }): Promise<{ user: User }> {
+  //   const { "nextauth.token": token } = parseCookies();
+
+  //   const response = await axios.put(
+  //     "http://localhost:3333/users/profile/update",
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify({
+  //         email,
+  //         name,
+  //         date,
+  //         gender,
+  //       }),
+  //     }
+  //   );
+
+  //   const { email, name, date, gender } = response.data;
+
+  //   return { user: { email, name, date, gender } };
+  // }
 
   async function signIn({ email, password }: SignInData) {
     try {
@@ -116,7 +138,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, signIn, recoverUserInformation, setUser }}
+      value={{
+        user,
+        isAuthenticated,
+        signIn,
+        recoverUserInformation,
+        setUser,
+        registerUser,
+        isLoading,
+      }}
     >
       {children}
     </AuthContext.Provider>

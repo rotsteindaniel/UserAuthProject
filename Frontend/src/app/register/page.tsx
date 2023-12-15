@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -14,7 +14,7 @@ import styles from "./page.module.css";
 import LoginCard from "../../components/cards/logincard/login";
 import Input from "../../components/forms/input/input";
 import Button from "../../components/forms/button/button";
-import { useUserRegistration } from "@/hooks/useUserRegistration";
+import { AuthContext } from "@/contexts/AuthContext";
 
 const createUserFormSchema = z.object({
   email: z
@@ -39,7 +39,8 @@ export type CreateUserFormData = z.infer<typeof createUserFormSchema>;
 
 export default function Register() {
   const Router = useRouter();
-  const { registerUser, isLoading, error } = useUserRegistration();
+
+  const { registerUser, isLoading } = useContext(AuthContext);
 
   const {
     register,
