@@ -34,6 +34,7 @@ export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const Router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const { "nextauth.token": token } = parseCookies();
@@ -44,8 +45,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       });
     }
   }, []);
-
-  const [user, setUser] = useState<User | null>(null);
 
   const isAuthenticated = !!user;
 
