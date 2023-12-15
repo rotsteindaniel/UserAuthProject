@@ -50,7 +50,7 @@ export default function Register() {
     resolver: zodResolver(createUserFormSchema),
   });
 
-  function onSubmit({
+  async function onSubmit({
     email,
     password,
     name,
@@ -58,10 +58,16 @@ export default function Register() {
     gender,
   }: CreateUserFormData) {
     try {
-      registerUser({ email, password, name, date, gender });
+      const message = await registerUser({
+        email,
+        password,
+        name,
+        date,
+        gender,
+      });
 
       // If the registration is successful, alert the user and navigate to the login page
-      alert("Usuário cadastrado com sucesso!");
+      alert(message);
       Router.push("/login");
     } catch (error) {
       // If there's an error, handle it and alert the user
