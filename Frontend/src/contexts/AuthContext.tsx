@@ -88,7 +88,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     const { message } = await response.data;
     setIsLoading(false);
-    console.log(message);
     return message;
   }
 
