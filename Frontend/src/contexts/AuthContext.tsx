@@ -7,8 +7,10 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 type User = {
-  name: string;
   email: string;
+  name: string;
+  date: string;
+  gender: string;
 };
 
 export type SignInData = {
@@ -44,9 +46,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       },
     });
 
-    const { email, name } = response.data;
+    const { email, name, date, gender } = response.data;
 
-    return { user: { email, name } };
+    return { user: { email, name, date, gender } };
   }
 
   useEffect(() => {
