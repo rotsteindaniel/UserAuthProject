@@ -22,7 +22,7 @@ export type AuthContextType = {
   isAuthenticated: boolean;
   user: User | null;
   signIn: ({ email, password }: SignInData) => Promise<void>;
-  recoverUserInformation: () => Promise<void | User>; // Update return type
+  recoverUserInformation: () => Promise<void | { user: User }>; // Update return type
 };
 
 type AuthProviderProps = {
@@ -38,7 +38,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const isAuthenticated = !!user;
 
-  async function recoverUserInformation(): Promise<void | User> {
+  async function recoverUserInformation(): Promise<{ user: User }> {
     const { "nextauth.token": token } = parseCookies();
 
     const response = await axios.get("http://localhost:3333/users/profile", {

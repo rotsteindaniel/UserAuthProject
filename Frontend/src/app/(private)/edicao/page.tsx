@@ -23,5 +23,15 @@ export default function Edicao() {
     return null;
   }
 
-  return <main className={styles.main}>Pagina de edicao do usuário</main>;
+  return (
+    <main className={styles.main}>
+      <form action="">
+        <h1>Edição</h1>
+        <label htmlFor="">
+          Name
+          <input type="text" placeholder="Nome" value={user?.name} />
+        </label>
+      </form>
+    </main>
+  );
 }
