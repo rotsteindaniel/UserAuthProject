@@ -15,6 +15,7 @@ export default function Perfil() {
     if (!isAuthenticated) {
       // Se não estiver autenticado, redirecione para a página de login
       Router.push("/login");
+      alert("Você não está logado");
     }
   }, [isAuthenticated]);
 
