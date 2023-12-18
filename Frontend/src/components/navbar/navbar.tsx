@@ -8,7 +8,7 @@ import { AuthContext, AuthContextType } from "@/contexts/AuthContext";
 import { useContext } from "react";
 
 export default function Navbar() {
-  const { isAuthenticated } = useContext<AuthContextType>(AuthContext);
+  const { isAuthenticated, logOut } = useContext<AuthContextType>(AuthContext);
 
   return (
     <nav className={styles.navbar}>
@@ -37,7 +37,11 @@ export default function Navbar() {
               </Button>
             </li>
             <li className={styles.li}>
-              <Button>Logout</Button>
+              <Button>
+                <Link href="/" onClick={logOut}>
+                  Log Out
+                </Link>
+              </Button>
             </li>
           </>
         ) : (

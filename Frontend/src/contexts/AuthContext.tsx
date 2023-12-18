@@ -26,6 +26,7 @@ export type AuthContextType = {
   recoverUserInformation: () => Promise<void | { user: User }>; // Update return type
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   registerUser: (user: User) => Promise<void | JSON>;
+  logOut: () => void;
   isLoading: boolean;
 };
 
@@ -115,6 +116,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  const logOut = () => {
+    setCookie(undefined, "nextauth.token", "", { maxAge: -1 });
+    delete axios.defaults.headers.common["Authorization"];
+    setUser(null);
+    Router.push("/"); // Redirect to the main page after logout
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -124,6 +132,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         recoverUserInformation,
         setUser,
         registerUser,
+        logOut,
         isLoading,
       }}
     >
