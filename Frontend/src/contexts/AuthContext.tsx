@@ -111,7 +111,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       Router.push("/perfil");
     } catch (error) {
-      console.error("Login error:", error);
+      alert("Login ou senha incorretos");
     }
   }
 

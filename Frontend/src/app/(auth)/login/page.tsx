@@ -49,7 +49,7 @@ export default function Login() {
       router.replace("/perfil");
     } catch (error) {
       // Handle login error if needed
-      console.error("Login error:", error);
+      alert(error);
     }
   }
 

@@ -32,6 +32,11 @@ export default function Navbar() {
               </Button>
             </li>
             <li className={styles.li}>
+              <Button>
+                <Link href="/perfil">Ver perfil</Link>
+              </Button>
+            </li>
+            <li className={styles.li}>
               <Button>Logout</Button>
             </li>
           </>
