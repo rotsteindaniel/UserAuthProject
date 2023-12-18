@@ -15,6 +15,15 @@ export default function Lista() {
 
       {error && <p>Error: {error}</p>}
 
+      {!isLoading && !error && users && users.length === 0 && (
+        <div>
+          <br />
+          <br />
+          <br />
+          <p>Nenhum usuário cadastrado ainda.</p>
+        </div>
+      )}
+
       {users && (
         <div className={styles.users}>
           {users.map((user) => (
