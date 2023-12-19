@@ -8,8 +8,13 @@ import { useRouter } from "next/navigation";
 export default function Perfil() {
   const Router = useRouter();
 
-  const { user, isAuthenticated, recoverUserInformation } =
+  const { user, setUser, isAuthenticated, recoverUserInformation } =
     useContext<AuthContextType>(AuthContext);
+
+  async function newRecoverUserInformation() {
+    const userData = await recoverUserInformation();
+    setUser(userData?.user || null);
+  }
 
   useEffect(() => {
     // Verifica se o usuário está autenticado
@@ -19,7 +24,7 @@ export default function Perfil() {
       alert("Você não está logado");
     } else {
       // Recupera as informações do usuário sempre que o componente for montado
-      recoverUserInformation();
+      newRecoverUserInformation();
     }
   }, [isAuthenticated]);
 
