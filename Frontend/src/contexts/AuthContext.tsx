@@ -147,7 +147,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       // Set Authorization header for all subsequent requests
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      setUser(user);
+      // setUser(user);
+      // Atualiza os dados do usuário após o login
+      await recoverUserInformation();
 
       Router.push("/perfil");
     } catch (error) {

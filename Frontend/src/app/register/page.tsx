@@ -81,7 +81,7 @@ export default function Register() {
       <LoginCard title="Crie sua conta">
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <Input
-            type="e-mail"
+            type="email"
             placeholder="Seu e-mail"
             name="email"
             autoComplete="email"

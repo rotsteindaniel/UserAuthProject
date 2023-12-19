@@ -11,7 +11,7 @@ export default function Perfil() {
   const { user, setUser, isAuthenticated, recoverUserInformation } =
     useContext<AuthContextType>(AuthContext);
 
-  async function newRecoverUserInformation() {
+  async function fetchUserData() {
     const userData = await recoverUserInformation();
     setUser(userData?.user || null);
   }
@@ -24,14 +24,9 @@ export default function Perfil() {
       alert("Você não está logado");
     } else {
       // Recupera as informações do usuário sempre que o componente for montado
-      newRecoverUserInformation();
+      fetchUserData();
     }
   }, [isAuthenticated]);
-
-  // Se o usuário não estiver autenticado, evite a renderização do conteúdo da página
-  if (!isAuthenticated) {
-    return null;
-  }
 
   return (
     <main className={styles.main}>

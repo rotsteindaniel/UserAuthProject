@@ -58,7 +58,7 @@ export default function Login() {
       <LoginCard title="Faça seu login">
         <form className={styles.form} onSubmit={handleSubmit(handleSignIn)}>
           <Input
-            type="e-mail"
+            type="email"
             placeholder="Seu e-mail"
             name="email"
             register={register}
