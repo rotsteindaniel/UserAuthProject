@@ -5,7 +5,6 @@ import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import { AuthContext, AuthContextType } from "@/contexts/AuthContext";
 import { z } from "zod";
-import { useUserUpdate } from "@/hooks/useUserUpdate";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import LoginCard from "@/components/cards/logincard/login";
@@ -28,9 +27,14 @@ export type UpdateUserFormData = z.infer<typeof updateUserFormSchema>;
 
 export default function Edicao() {
   const Router = useRouter();
-  const { updateUser, isLoading, error } = useUserUpdate();
 
-  const { user, isAuthenticated } = useContext<AuthContextType>(AuthContext);
+  const {
+    user,
+    isAuthenticated,
+    isLoading,
+    updateUser,
+    recoverUserInformation,
+  } = useContext<AuthContextType>(AuthContext);
 
   useEffect(() => {
     // Verifica se o usuário está autenticado
@@ -55,14 +59,16 @@ export default function Edicao() {
 
   async function onSubmit({ email, name, date, gender }: UpdateUserFormData) {
     try {
-      await updateUser({ email, name, date, gender });
+      const message = await updateUser({ email, name, date, gender });
+
+      // Após a edição, recupera novamente as informações do usuário
+      await recoverUserInformation();
 
       // If the registration is successful, alert the user and navigate to the login page
-      alert("Usuário editado com sucesso!");
+      alert(message);
       Router.push("/perfil");
     } catch (error) {
       // If there's an error, handle it and alert the user
-      console.error("An error occurred during registration", error);
       alert("Erro ao cadastrar usuário. Por favor, tente novamente.");
     }
   }

@@ -19,13 +19,21 @@ export type SignInData = {
   password: string;
 };
 
+export type UpdateUserData = {
+  email: string;
+  name: string;
+  date: string;
+  gender: string;
+};
+
 export type AuthContextType = {
   isAuthenticated: boolean;
   user: User | null;
   signIn: ({ email, password }: SignInData) => Promise<void>;
-  recoverUserInformation: () => Promise<void | { user: User }>; // Update return type
+  recoverUserInformation: () => Promise<void | { user: User }>;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   registerUser: (user: User) => Promise<void | JSON>;
+  updateUser: (data: UpdateUserData) => Promise<void | JSON>;
   logOut: () => void;
   isLoading: boolean;
 };
@@ -63,6 +71,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     });
 
     const { email, name, date, gender } = response.data;
+    setUser({ email, name, date, gender });
 
     return { user: { email, name, date, gender } };
   }
@@ -90,6 +99,36 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const { message } = await response.data;
     setIsLoading(false);
     return message;
+  }
+
+  async function updateUser({ email, name, date, gender }: UpdateUserData) {
+    setIsLoading(true);
+    const { "nextauth.token": token } = parseCookies();
+
+    try {
+      const response = await axios.put(
+        "http://localhost:3333/users/profile/update",
+        {
+          email,
+          name,
+          date,
+          gender,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const { message } = await response.data;
+      setIsLoading(false);
+      return message;
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Error updating user", error);
+      return Promise.reject("Error updating user");
+    }
   }
 
   async function signIn({ email, password }: SignInData) {
@@ -132,6 +171,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         recoverUserInformation,
         setUser,
         registerUser,
+        updateUser,
         logOut,
         isLoading,
       }}
