@@ -24,7 +24,9 @@ class UsersRepositoryInMemory implements IUsersRepository {
   }
 
   async findById(id: string): Promise<User> {
-    return this.users.find((user) => user.id === id);
+    const lowercaseId = id.toLowerCase();
+    const user = this.users.find((user) => user.id.toLowerCase() === lowercaseId);
+    return user;
   }
 
   async findAll(): Promise<User[]> {

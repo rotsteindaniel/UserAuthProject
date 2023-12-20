@@ -5,7 +5,7 @@ import { UnauthorizedError } from "@shared/errors/ApiError";
 import auth from "@config/auth";
 
 interface IPayload {
-  sub: string;
+  subject: string;
 }
 
 export async function ensureAuthenticated(
@@ -22,7 +22,9 @@ export async function ensureAuthenticated(
   const [, token] = authHeader.split(" ");
 
   try {
-    const { sub: user_id } = verify(token, auth.secret_token) as IPayload;
+    const decodedToken = verify(token, auth.secret_token) as IPayload;
+
+    const user_id = decodedToken.subject;
 
     request.user = {
       id: user_id,

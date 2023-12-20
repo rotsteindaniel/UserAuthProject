@@ -11,7 +11,6 @@ class GetProfileUserUseCase {
   ) {}
   async execute(id: string): Promise<User> {
     const user = await this.UsersRepositoryInMemory.findById(id);
-
     return user;
   }
 }
