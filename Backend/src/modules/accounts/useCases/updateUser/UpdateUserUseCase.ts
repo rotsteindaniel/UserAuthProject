@@ -36,7 +36,7 @@ class UpdateUserUseCase {
     // Salve o usuário atualizado no repositório
     await this.UsersRepositoryInMemory.save(user);
 
-    return UserMap.toDTO(user);
+    return user;
   }
 }
 
