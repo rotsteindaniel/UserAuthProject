@@ -1,4 +1,4 @@
-import { IUser } from "../dtos/IUser";
+import { IUser } from "../interface/IUser";
 
 class User {
   id?: string;
