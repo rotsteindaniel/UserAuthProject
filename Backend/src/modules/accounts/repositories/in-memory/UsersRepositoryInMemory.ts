@@ -1,12 +1,14 @@
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
 import { IUsersRepository } from "../IUsersRepository";
 import { User } from "../User";
+import { v4 as uuid } from 'uuid';
 
 class UsersRepositoryInMemory implements IUsersRepository {
   users: User[] = [];
 
   async create({ email, name, date, gender, password }: ICreateUserDTO): Promise<void> {
     const user = new User({
+      id: uuid(),
       email,
       name,
       date,
