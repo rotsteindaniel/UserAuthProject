@@ -1,4 +1,4 @@
-import { ICreateUserDTO } from "../../interfaces/ICreateUserDTO";
+import { IUser } from "@modules/accounts/interfaces/IUser";
 import { IUsersRepository } from "../IUsersRepository";
 import { User } from "../User";
 import { v4 as uuid } from 'uuid';
@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid';
 class UsersRepositoryInMemory implements IUsersRepository {
   users: User[] = [];
 
-  async create({ email, name, date, gender, password }: ICreateUserDTO): Promise<void> {
+  async create({ email, name, date, gender, password }: IUser): Promise<void> {
     const user = new User({
       id: uuid(),
       email,

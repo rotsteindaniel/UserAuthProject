@@ -1,8 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
-import { IUserResponseDTO } from "@modules/accounts/dtos/IUserResponseDTO";
-import { UserMap } from "@modules/accounts/mapper/UserMap";
 import { NotFoundError } from "@shared/errors/ApiError";
 
 interface IRequest {

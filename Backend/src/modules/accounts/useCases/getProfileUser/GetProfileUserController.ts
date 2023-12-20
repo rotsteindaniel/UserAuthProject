@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { z } from 'zod';
 
 import { GetProfileUserUseCase } from "./GetProfileUserUseCase";
 import { NotFoundError } from "@shared/errors/ApiError";

@@ -1,8 +1,8 @@
 import { hash } from "bcrypt";
 import { inject, injectable } from "tsyringe";
 
-import { ICreateUserDTO } from "@modules/accounts/dtos/ICreateUserDTO";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
+import { IUser } from "@modules/accounts/interfaces/IUser";
 
 @injectable()
 class CreateUserUseCase {
@@ -17,7 +17,7 @@ class CreateUserUseCase {
     date,
     gender,
     password,
-  }: ICreateUserDTO): Promise<void> {
+  }: IUser): Promise<void> {
     const userAlreadyExists = await this.UsersRepositoryInMemory.findByEmail(
       email
     );
