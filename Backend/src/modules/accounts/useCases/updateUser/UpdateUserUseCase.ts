@@ -1,9 +1,8 @@
 import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
-import { IUserResponseDTO } from "@modules/accounts/dtos/IUserResponseDTO";
-import { UserMap } from "@modules/accounts/mapper/UserMap";
 import { NotFoundError } from "@shared/errors/ApiError";
+import { IUser } from "@modules/accounts/interfaces/IUser";
 
 interface IRequest {
   id: string;
@@ -19,7 +18,7 @@ class UpdateUserUseCase {
     @inject("UsersRepositoryInMemory")
     private UsersRepositoryInMemory: IUsersRepository
   ) {}
-  async execute({ id, name, email, date, gender }: IRequest): Promise<IUserResponseDTO> {
+  async execute({ id, name, email, date, gender }: IRequest): Promise<IUser> {
     const user = await this.UsersRepositoryInMemory.findById(id);
 
     // Verifique se o usuário existe antes de tentar atualizá-lo
