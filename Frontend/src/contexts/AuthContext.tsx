@@ -34,6 +34,7 @@ export type AuthContextType = {
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   registerUser: (user: User) => Promise<void | JSON>;
   updateUser: (data: UpdateUserData) => Promise<void | JSON>;
+  deleteUser: () => Promise<void | JSON>;
   logOut: () => void;
   isLoading: boolean;
 };
@@ -99,6 +100,31 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const { message } = await response.data;
     setIsLoading(false);
     return message;
+  }
+
+  async function deleteUser() {
+    setIsLoading(true);
+    const { "nextauth.token": token } = parseCookies();
+
+    try {
+      const response = await axios.delete(
+        "http://localhost:3333/users/profile/delete",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const { message } = await response.data;
+      setIsLoading(false);
+      logOut();
+      return message;
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Error deleting user", error);
+      return Promise.reject("Error deleting user");
+    }
   }
 
   async function updateUser({ email, name, date, gender }: UpdateUserData) {
@@ -174,6 +200,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setUser,
         registerUser,
         updateUser,
+        deleteUser,
         logOut,
         isLoading,
       }}
