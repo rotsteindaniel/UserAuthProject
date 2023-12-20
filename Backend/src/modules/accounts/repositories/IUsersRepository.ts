@@ -1,4 +1,4 @@
-import { ICreateUserDTO } from "../interface/ICreateUserDTO";
+import { ICreateUserDTO } from "../interfaces/ICreateUserDTO";
 import { User } from "./User";
 
 interface IUsersRepository {

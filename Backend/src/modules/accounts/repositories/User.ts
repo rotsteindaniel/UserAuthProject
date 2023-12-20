@@ -1,4 +1,4 @@
-import { IUser } from "../interface/IUser";
+import { IUser } from "../interfaces/IUser";
 
 class User {
   id?: string;

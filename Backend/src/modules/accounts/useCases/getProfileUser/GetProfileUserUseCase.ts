@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
-import { IUser } from "@modules/accounts/interface/IUser";
+import { IUser } from "@modules/accounts/interfaces/IUser";
 
 @injectable()
 class GetProfileUserUseCase {
