@@ -14,6 +14,7 @@ class ListUsersUseCase {
     const usersData = await this.UsersRepositoryInMemory.findAll();
 
     const users = usersData.map((user) => ({
+      id: user.id,
       name: user.name,
       email: user.email,
       date: user.date,

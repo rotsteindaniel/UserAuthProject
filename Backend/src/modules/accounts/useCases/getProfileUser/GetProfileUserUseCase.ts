@@ -1,8 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
-import { IUserResponseDTO } from "@modules/accounts/dtos/IUserResponseDTO";
-import { UserMap } from "@modules/accounts/mapper/UserMap";
+import { IUser } from "@modules/accounts/dtos/IUser";
 
 @injectable()
 class GetProfileUserUseCase {
@@ -10,10 +9,10 @@ class GetProfileUserUseCase {
     @inject("UsersRepositoryInMemory")
     private UsersRepositoryInMemory: IUsersRepository
   ) {}
-  async execute(id: string): Promise<IUserResponseDTO> {
+  async execute(id: string): Promise<IUser> {
     const user = await this.UsersRepositoryInMemory.findById(id);
 
-    return UserMap.toDTO(user);
+    return user;
   }
 }
 
