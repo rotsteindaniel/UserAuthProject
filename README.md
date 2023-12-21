@@ -1,5 +1,7 @@
 # UserAuthProject
 
+https://github.com/rotsteindaniel/UserAuthProject/assets/97666187/92b4e5fb-bf8e-41ac-89ab-04f794166b10
+
 ## Descrição do Projeto
 
 O UserAuthProject é um projeto que implementa um sistema CRUD (Create, Read, Update, Delete) para usuários, com funcionalidades de listar, editar, visualizar perfil e excluir. Além disso, o projeto utiliza autenticação JWT (JSON Web Token) para garantir a segurança das operações, com os tokens armazenados nos cookies.
