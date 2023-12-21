@@ -17,13 +17,10 @@ export default function Profile() {
   }
 
   useEffect(() => {
-    // Verifica se o usuário está autenticado
     if (!isAuthenticated) {
-      // Se não estiver autenticado, redirecione para a página de login
       Router.push("/login");
-      alert("Você não está logado");
+      alert("You are not logged in.");
     } else {
-      // Recupera as informações do usuário sempre que o componente for montado
       fetchUserData();
     }
   }, [isAuthenticated]);

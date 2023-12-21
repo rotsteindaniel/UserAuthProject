@@ -49,7 +49,7 @@ export default function Navbar() {
             </li>
             <li className={styles.li}>
               <Button>
-                <Link href="/perfil">User Profile</Link>
+                <Link href="/profile">User Profile</Link>
               </Button>
             </li>
 
