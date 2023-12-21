@@ -3,6 +3,7 @@ import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { IUser } from "@modules/accounts/interfaces/IUser";
+import { BadRequestError } from "@shared/errors/ApiError";
 
 @injectable()
 class CreateUserUseCase {
@@ -23,7 +24,7 @@ class CreateUserUseCase {
     );
 
     if (userAlreadyExists) {
-      throw new Error;
+      throw new BadRequestError("User already exists");;
     }
 
     const passwordHash = await hash(password, 8);
