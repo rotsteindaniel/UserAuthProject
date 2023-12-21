@@ -6,6 +6,8 @@ O UserAuthProject é um projeto que implementa um sistema CRUD (Create, Read, Up
 
 O backend do projeto segue a estrutura do modelo RentX da Rocketseat, utilizando o framework Express. A autenticação JWT é gerenciada no arquivo `auth`, sem um arquivo `.env` para configuração. Isso foi feito para poder praticar, sem ser um projeto real, então as variáveis sensíveis estão expostas no arquivo `auth`.
 
+Os dados são salvos em memória, então os dados somem se reiniciar a aplicação.
+
 O frontend utiliza o framework Next.js, facilitando a construção de aplicações React. O gerenciamento de estado é realizado através do React Hook Form, garantindo um controle eficiente e intuitivo dos formulários. O Zod é utilizado para validação de dados, garantindo a integridade das informações recebidas.
 
 ## Tecnologias Utilizadas
