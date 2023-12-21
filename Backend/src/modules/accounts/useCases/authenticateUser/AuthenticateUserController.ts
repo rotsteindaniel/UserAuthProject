@@ -21,9 +21,7 @@ class AuthenticateUserController {
 
       return response.json(token);
     } catch (error) {
-      if (error) {
         throw new BadRequestError(error.message);
-      }
     }
   }
 }

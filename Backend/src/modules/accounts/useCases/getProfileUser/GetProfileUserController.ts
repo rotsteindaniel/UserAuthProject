@@ -12,21 +12,18 @@ class GetUserProfileController {
 
       const getProfileUserUseCase = container.resolve(GetProfileUserUseCase);
 
-      const user = await getProfileUserUseCase.execute(id);
-      return response.json(user);
+      // const user = await getProfileUserUseCase.execute(id);
+      // return response.json(user);
+
+      const {
+        name, email, date, gender
+      } = await getProfileUserUseCase.execute(id);
+
+      return response.json({
+        name, email, date, gender
+      });
     } catch (error) {
-      if (error instanceof NotFoundError) {
-        // Tratar erros específicos de negócios, como usuário não encontrado
-        return response.status(404).json({
-          error: error.message,
-        });
-      } else {
-        // Outros tipos de erros, como erros internos do servidor
-        console.error(error);
-        return response.status(500).json({
-          error: "Internal Server Error",
-        });
-      }
+      throw new NotFoundError(error.message)     
     }
   }
 }
