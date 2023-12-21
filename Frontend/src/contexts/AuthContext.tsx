@@ -29,13 +29,13 @@ export type UpdateUserData = {
 export type AuthContextType = {
   isAuthenticated: boolean;
   user: User | null;
-  signIn: ({ email, password }: SignInData) => Promise<void>;
-  recoverUserInformation: () => Promise<void | { user: User }>;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  signIn: ({ email, password }: SignInData) => Promise<void>;
+  logOut: () => void;
+  recoverUserInformation: () => Promise<void | { user: User }>;
   registerUser: (user: User) => Promise<void | JSON>;
   updateUser: (data: UpdateUserData) => Promise<void | JSON>;
   deleteUser: () => Promise<void | JSON>;
-  logOut: () => void;
   isLoading: boolean;
 };
 
@@ -164,7 +164,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         password,
       });
 
-      const { token, user } = await response.data;
+      const { token } = await response.data;
 
       setCookie(undefined, "nextauth.token", token, {
         maxAge: 60 * 60 * 1, // 1 hour
@@ -173,7 +173,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       // Set Authorization header for all subsequent requests
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      // setUser(user);
       // Atualiza os dados do usuário após o login
       await recoverUserInformation();
 
@@ -183,25 +182,25 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  const logOut = () => {
+  async function logOut() {
     setCookie(undefined, "nextauth.token", "", { maxAge: -1 });
     delete axios.defaults.headers.common["Authorization"];
     setUser(null);
-    Router.push("/"); // Redirect to the main page after logout
-  };
+    Router.push("/");
+  }
 
   return (
     <AuthContext.Provider
       value={{
-        user,
         isAuthenticated,
-        signIn,
-        recoverUserInformation,
+        user,
         setUser,
+        signIn,
+        logOut,
+        recoverUserInformation,
         registerUser,
         updateUser,
         deleteUser,
-        logOut,
         isLoading,
       }}
     >
