@@ -15,16 +15,7 @@ class DeleteUserController {
       return response.json({ message: "User deleted successfully" });
     } catch (error) {
       if (error instanceof NotFoundError) {
-        // Tratar erros específicos de negócios, como usuário não encontrado
-        return response.status(404).json({
-          error: error.message,
-        });
-      } else {
-        // Outros tipos de erros, como erros internos do servidor
-        console.error(error);
-        return response.status(500).json({
-          error: "Internal Server Error",
-        });
+       throw new NotFoundError(error.message);
       }
     }
   }
