@@ -43,7 +43,7 @@ class UpdateUserController {
           })),
         });
       } else if (error instanceof NotFoundError) {
-        throw new NotFoundError("User not found");
+        throw new NotFoundError(error.message);
       } else if (error instanceof BadRequestError) {
         throw new BadRequestError("Bad request");
       }
