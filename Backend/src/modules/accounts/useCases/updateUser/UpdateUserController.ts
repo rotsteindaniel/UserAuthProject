@@ -42,7 +42,7 @@ class UpdateUserController {
             message: err.message,
           })),
         });
-      } else if (error instanceof NotFoundError) {
+      } else if (error) {
         throw new NotFoundError("User not found");
       }
     }
