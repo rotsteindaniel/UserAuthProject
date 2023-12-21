@@ -42,8 +42,7 @@ class CreateUserController {
             message: err.message,
           })),
         });
-      } else {
-        
+      } else if (error instanceof BadRequestError) {
         throw new BadRequestError("User already exists");
       }
     }
