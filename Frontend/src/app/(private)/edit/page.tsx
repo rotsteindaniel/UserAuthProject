@@ -1,15 +1,19 @@
 "use client";
 
-import { useContext, useEffect } from "react";
-import styles from "./page.module.css";
-import { useRouter } from "next/navigation";
 import { AuthContext, AuthContextType } from "@/contexts/AuthContext";
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 import LoginCard from "@/components/cards/logincard/login";
 import Input from "@/components/forms/input/input";
 import Button from "@/components/forms/button/button";
+
+import styles from "./page.module.css";
 
 const updateUserFormSchema = z.object({
   email: z

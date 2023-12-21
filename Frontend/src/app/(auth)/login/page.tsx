@@ -1,19 +1,20 @@
 "use client";
 
+import { AuthContext } from "@/contexts/AuthContext";
+import { useContext } from "react";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-
-import styles from "./page.module.css";
 
 import LoginCard from "../../../components/cards/logincard/login";
 import Input from "../../../components/forms/input/input";
 import Button from "../../../components/forms/button/button";
-import { useContext } from "react";
-import { useRouter } from "next/navigation";
-import { AuthContext } from "@/contexts/AuthContext";
+
+import styles from "./page.module.css";
 
 export type SignInData = {
   email: string;

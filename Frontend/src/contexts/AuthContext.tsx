@@ -47,6 +47,7 @@ export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const Router = useRouter();
+
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -61,6 +62,38 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const isAuthenticated = !!user;
+
+  async function signIn({ email, password }: SignInData) {
+    try {
+      const response = await axios.post("http://localhost:3333/sessions", {
+        email,
+        password,
+      });
+
+      const { token } = await response.data;
+
+      setCookie(undefined, "nextauth.token", token, {
+        maxAge: 60 * 60 * 1, // 1 hour
+      });
+
+      // Set Authorization header for all subsequent requests
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      // Atualiza os dados do usuário após o login
+      await recoverUserInformation();
+
+      Router.push("/profile");
+    } catch (error) {
+      alert("Incorrect login or password.");
+    }
+  }
+
+  async function logOut() {
+    setCookie(undefined, "nextauth.token", "", { maxAge: -1 });
+    delete axios.defaults.headers.common["Authorization"];
+    setUser(null);
+    Router.push("/");
+  }
 
   async function recoverUserInformation(): Promise<{ user: User }> {
     const { "nextauth.token": token } = parseCookies();
@@ -102,31 +135,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return message;
   }
 
-  async function deleteUser() {
-    setIsLoading(true);
-    const { "nextauth.token": token } = parseCookies();
-
-    try {
-      const response = await axios.delete(
-        "http://localhost:3333/users/profile/delete",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const { message } = await response.data;
-      setIsLoading(false);
-      logOut();
-      return message;
-    } catch (error) {
-      setIsLoading(false);
-      console.error("Error deleting user", error);
-      return Promise.reject("Error deleting user");
-    }
-  }
-
   async function updateUser({ email, name, date, gender }: UpdateUserData) {
     setIsLoading(true);
     const { "nextauth.token": token } = parseCookies();
@@ -157,42 +165,36 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  async function signIn({ email, password }: SignInData) {
+  async function deleteUser() {
+    setIsLoading(true);
+    const { "nextauth.token": token } = parseCookies();
+
     try {
-      const response = await axios.post("http://localhost:3333/sessions", {
-        email,
-        password,
-      });
+      const response = await axios.delete(
+        "http://localhost:3333/users/profile/delete",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      const { token } = await response.data;
-
-      setCookie(undefined, "nextauth.token", token, {
-        maxAge: 60 * 60 * 1, // 1 hour
-      });
-
-      // Set Authorization header for all subsequent requests
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-      // Atualiza os dados do usuário após o login
-      await recoverUserInformation();
-
-      Router.push("/profile");
+      const { message } = await response.data;
+      setIsLoading(false);
+      logOut();
+      return message;
     } catch (error) {
-      alert("Incorrect login or password.");
+      setIsLoading(false);
+      console.error("Error deleting user", error);
+      return Promise.reject("Error deleting user");
     }
-  }
-
-  async function logOut() {
-    setCookie(undefined, "nextauth.token", "", { maxAge: -1 });
-    delete axios.defaults.headers.common["Authorization"];
-    setUser(null);
-    Router.push("/");
   }
 
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        isLoading,
         user,
         setUser,
         signIn,
@@ -201,7 +203,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         registerUser,
         updateUser,
         deleteUser,
-        isLoading,
       }}
     >
       {children}

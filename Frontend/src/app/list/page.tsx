@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
-import styles from "./page.module.css";
 import { useUserListing } from "@/hooks/useUserListing";
+
+import styles from "./page.module.css";
 
 export default function List() {
   const { isLoading, error, users } = useUserListing();
