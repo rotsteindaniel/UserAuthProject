@@ -1,5 +1,5 @@
 {
-  "name": "api-user-using-rentx-as-a-model",
+  "name": "user-auth-project",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
