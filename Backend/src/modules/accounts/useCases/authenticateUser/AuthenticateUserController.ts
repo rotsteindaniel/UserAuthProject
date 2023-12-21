@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
+
 import { container } from "tsyringe";
-import { z } from "zod";
-
 import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase";
-import { BadRequestError } from "@shared/errors/ApiError";
 
+import { BadRequestError } from "@shared/errors/ApiError";
 class AuthenticateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
     try {
@@ -21,7 +20,7 @@ class AuthenticateUserController {
 
       return response.json(token);
     } catch (error) {
-        throw new BadRequestError("Email or password incorrect!");
+      throw new BadRequestError("Email or password incorrect!");
     }
   }
 }

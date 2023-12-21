@@ -1,9 +1,10 @@
 import { compare } from "bcrypt";
-import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
-
-import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { BadRequestError } from "@shared/errors/ApiError";
+
+import { sign } from "jsonwebtoken";
+import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
+
 import auth from "@config/auth";
 
 interface IRequest {

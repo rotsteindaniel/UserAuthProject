@@ -1,7 +1,9 @@
-import { IUser } from "@modules/accounts/interfaces/IUser";
-import { IUsersRepository } from "../IUsersRepository";
+import { v4 as uuid } from "uuid";
+
 import { User } from "../User";
-import { v4 as uuid } from 'uuid';
+import { IUser } from "@modules/accounts/interfaces/IUser";
+
+import { IUsersRepository } from "../IUsersRepository";
 
 class UsersRepositoryInMemory implements IUsersRepository {
   users: User[] = [];

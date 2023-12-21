@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { z } from "zod";
+import { NotFoundError } from "@shared/errors/ApiError";
 
 import { UpdateUserUseCase } from "./UpdateUserUseCase";
-import { BadRequestError, NotFoundError } from "@shared/errors/ApiError";
+import { z } from "zod";
 
 class UpdateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
@@ -21,7 +21,7 @@ class UpdateUserController {
       );
 
       const updateUserUseCase = container.resolve(UpdateUserUseCase);
-      
+
       await updateUserUseCase.execute({
         id,
         name,
@@ -29,7 +29,7 @@ class UpdateUserController {
         date,
         gender,
       });
-      
+
       return response.json({
         message: "User updated successfully",
       });

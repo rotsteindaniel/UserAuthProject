@@ -1,8 +1,8 @@
 import { inject, injectable } from "tsyringe";
+import { NotFoundError } from "@shared/errors/ApiError";
 
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { User } from "@modules/accounts/repositories/User";
-import { NotFoundError } from "@shared/errors/ApiError";
 
 @injectable()
 class GetProfileUserUseCase {

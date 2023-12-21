@@ -1,10 +1,10 @@
-import { hash } from "bcrypt";
 import { inject, injectable } from "tsyringe";
+import { BadRequestError } from "@shared/errors/ApiError";
 
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { IUser } from "@modules/accounts/interfaces/IUser";
-import { BadRequestError } from "@shared/errors/ApiError";
 
+import { hash } from "bcrypt";
 @injectable()
 class CreateUserUseCase {
   constructor(

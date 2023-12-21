@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
+
 import { container } from "tsyringe";
-import { z } from "zod";
+import { BadRequestError } from "@shared/errors/ApiError";
 
 import { CreateUserUseCase } from "./CreateUserUseCase";
-import { BadRequestError } from "@shared/errors/ApiError";
+import { z } from "zod";
 
 class CreateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
@@ -35,7 +36,6 @@ class CreateUserController {
       });
     } catch (error) {
       if (error instanceof z.ZodError) {
-        // Tratar erros de validação aqui
         return response.status(400).json({
           errors: error.errors.map((err) => ({
             path: err.path.join("."),

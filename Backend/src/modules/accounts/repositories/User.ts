@@ -8,7 +8,7 @@ class User {
   gender?: string;
   password?: string;
   token?: string;
-  // You can initialize the properties in the constructor if needed
+
   constructor({ id, name, email, date, gender, password, token }: IUser) {
     this.id = id;
     this.name = name;
