@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 import { AuthContext, AuthContextType } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 
-export default function Perfil() {
+export default function Profile() {
   const Router = useRouter();
 
   const { user, setUser, isAuthenticated, recoverUserInformation } =

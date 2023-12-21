@@ -1,5 +1,4 @@
 import styles from "./login.module.css";
-
 interface LoginCardProps {
   children: React.ReactNode;
   title: string;

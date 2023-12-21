@@ -4,12 +4,12 @@ import React from "react";
 import styles from "./page.module.css";
 import { useUserListing } from "@/hooks/useUserListing";
 
-export default function Lista() {
+export default function List() {
   const { isLoading, error, users } = useUserListing();
 
   return (
     <main className={styles.main}>
-      <h1>Lista de Usuários</h1>
+      <h1>Users List</h1>
 
       {isLoading && <p>Loading...</p>}
 
@@ -20,7 +20,7 @@ export default function Lista() {
           <br />
           <br />
           <br />
-          <p>Nenhum usuário cadastrado ainda.</p>
+          <p>No registered users yet.</p>
         </div>
       )}
 

@@ -1,7 +1,6 @@
 "use client";
 
-import { useContext, useState } from "react";
-import { setCookie } from "cookies-next";
+import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,20 +18,19 @@ import { AuthContext } from "@/contexts/AuthContext";
 const createUserFormSchema = z.object({
   email: z
     .string()
-    .min(1, { message: "O email é obrigatório" })
-    .email({ message: "Campo obrigatório" }),
+    .min(1, { message: "The email is mandatory." })
+    .email({ message: "The email is mandatory." }),
   password: z
     .string()
-    .min(1, { message: "A senha é obrigatória" })
-    .min(6, { message: "Senha curta (menos de 6 caracteres)" })
+    .min(1, { message: "The password is mandatory." })
+    .min(6, { message: "Short password (less than 6 characters)." })
     .regex(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/, {
-      message: "A senha deve conter letras, números e caracteres especiais",
+      message:
+        "The password must contain letters, numbers, and special characters.",
     }),
-  name: z.string().min(1, { message: "A nome completo é obrigatório" }),
-  date: z.string().min(1, { message: "A data de nascimento é obrigatória" }),
-  gender: z
-    .string()
-    .min(1, { message: "A gênero de nascimento é obrigatória" }),
+  name: z.string().min(1, { message: "The full name is mandatory." }),
+  date: z.string().min(1, { message: "The date of birth is mandatory." }),
+  gender: z.string().min(1, { message: "The gender is mandatory." }),
 });
 
 export type CreateUserFormData = z.infer<typeof createUserFormSchema>;
@@ -72,17 +70,17 @@ export default function Register() {
     } catch (error) {
       // If there's an error, handle it and alert the user
       console.error("An error occurred during registration", error);
-      alert("Erro ao cadastrar usuário. Por favor, tente novamente.");
+      alert("Error registering user. Please try again.");
     }
   }
 
   return (
     <div className={styles.background}>
-      <LoginCard title="Crie sua conta">
+      <LoginCard title="Create your account">
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <Input
             type="email"
-            placeholder="Seu e-mail"
+            placeholder="Your email"
             name="email"
             autoComplete="email"
             register={register}
@@ -92,7 +90,7 @@ export default function Register() {
           )}
           <Input
             type="password"
-            placeholder="Sua senha"
+            placeholder="Your password"
             name="password"
             autoComplete="new-password"
             register={register}
@@ -102,7 +100,7 @@ export default function Register() {
           )}
           <Input
             type="text"
-            placeholder="Seu nome e sobrenome"
+            placeholder="Your first and last name"
             name="name"
             autoComplete="name"
             register={register}
@@ -110,24 +108,24 @@ export default function Register() {
           {errors.name && <p style={{ color: "red" }}>{errors.name.message}</p>}
           <Input
             type="date"
-            placeholder="Data de nascimento"
+            placeholder="Date of birth"
             name="date"
             autoComplete="bday"
             register={register}
           />
           {errors.date && <p style={{ color: "red" }}>{errors.date.message}</p>}
           <select {...register("gender")} className={styles.gender}>
-            <option value="Masculino">Masculino</option>
-            <option value="Feminino">Feminino</option>
-            <option value="Não informar">Não informar</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="not_specified">Prefer not to say</option>
           </select>
           {errors.gender && (
             <p style={{ color: "red" }}>{errors.gender.message}</p>
           )}
           <Button type="submit" disabled={isLoading}>
-            {isLoading ? "Cadastrando..." : "Cadastrar"}
+            {isLoading ? "Registering..." : "Register"}
           </Button>
-          <Link href="/login">Já possui uma conta?</Link>
+          <Link href="/login">Already have an account?</Link>
         </form>
       </LoginCard>
     </div>

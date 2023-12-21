@@ -12,7 +12,7 @@
   gap: 10px;
 }
 
-.cadastro {
+.register {
   text-align: center;
   color: black;
   margin-bottom: 1rem;
@@ -20,6 +20,6 @@
   margin-top: 0.5rem;
 }
 
-.cadastro:hover {
+.register:hover {
   transform: scale(1.05);
 }

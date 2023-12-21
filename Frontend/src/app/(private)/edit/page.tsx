@@ -14,18 +14,16 @@ import Button from "@/components/forms/button/button";
 const updateUserFormSchema = z.object({
   email: z
     .string()
-    .min(1, { message: "O email é obrigatório" })
-    .email({ message: "Campo obrigatório" }),
-  name: z.string().min(1, { message: "A nome completo é obrigatório" }),
-  date: z.string().min(1, { message: "A data de nascimento é obrigatória" }),
-  gender: z
-    .string()
-    .min(1, { message: "A gênero de nascimento é obrigatória" }),
+    .min(1, { message: "The email is mandatory." })
+    .email({ message: "Mandatory field." }),
+  name: z.string().min(1, { message: "The full name is mandatory." }),
+  date: z.string().min(1, { message: "The date of birth is mandatory." }),
+  gender: z.string().min(1, { message: "The gender at birth is mandatory." }),
 });
 
 export type UpdateUserFormData = z.infer<typeof updateUserFormSchema>;
 
-export default function Edicao() {
+export default function Edit() {
   const Router = useRouter();
 
   const {
@@ -37,14 +35,11 @@ export default function Edicao() {
   } = useContext<AuthContextType>(AuthContext);
 
   useEffect(() => {
-    // Verifica se o usuário está autenticado
     if (!isAuthenticated) {
-      // Se não estiver autenticado, redirecione para a página de login
       Router.push("/login");
     }
   }, [isAuthenticated]);
 
-  // Se o usuário não estiver autenticado, evite a renderização do conteúdo da página
   if (!isAuthenticated) {
     return null;
   }
@@ -61,24 +56,21 @@ export default function Edicao() {
     try {
       const message = await updateUser({ email, name, date, gender });
 
-      // Após a edição, recupera novamente as informações do usuário
       await recoverUserInformation();
 
-      // If the registration is successful, alert the user and navigate to the login page
       alert(message);
-      Router.push("/perfil");
+      Router.push("/profile");
     } catch (error) {
-      // If there's an error, handle it and alert the user
-      alert("Erro ao cadastrar usuário. Por favor, tente novamente.");
+      alert("Error registering user. Please try again.");
     }
   }
 
   return (
     <div className={styles.background}>
-      <LoginCard title="Edite seus dados">
+      <LoginCard title="Edit your information">
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <Input
-            type="e-mail"
+            type="email"
             placeholder="Seu e-mail"
             name="email"
             autoComplete="email"
@@ -90,7 +82,7 @@ export default function Edicao() {
           )}
           <Input
             type="text"
-            placeholder="Seu nome e sobrenome"
+            placeholder="Your first and last name."
             name="name"
             autoComplete="name"
             register={register}
@@ -99,7 +91,7 @@ export default function Edicao() {
           {errors.name && <p style={{ color: "red" }}>{errors.name.message}</p>}
           <Input
             type="date"
-            placeholder="Data de nascimento"
+            placeholder="Date of birth."
             name="date"
             autoComplete="bday"
             register={register}
@@ -111,15 +103,15 @@ export default function Edicao() {
             className={styles.gender}
             defaultValue={user?.gender}
           >
-            <option value="Masculino">Masculino</option>
-            <option value="Feminino">Feminino</option>
-            <option value="Não informar">Não informar</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="not_specified">Prefer not to say</option>
           </select>
           {errors.gender && (
             <p style={{ color: "red" }}>{errors.gender.message}</p>
           )}
           <Button type="submit" disabled={isLoading}>
-            {isLoading ? "Editando..." : "Editar"}
+            {isLoading ? "Editing..." : "Edit"}
           </Button>
         </form>
       </LoginCard>

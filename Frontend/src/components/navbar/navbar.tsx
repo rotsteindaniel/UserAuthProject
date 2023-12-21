@@ -32,29 +32,29 @@ export default function Navbar() {
         <li className={styles.li}>
           <Button>
             {" "}
-            <Link href="/">Página Inicial</Link>
+            <Link href="/">Home Page</Link>
           </Button>
         </li>
         <li className={styles.li}>
           <Button>
-            <Link href="/lista">Lista de Usuários</Link>
+            <Link href="/list">List Users</Link>
           </Button>
         </li>
         {isAuthenticated ? (
           <>
             <li className={styles.li}>
               <Button>
-                <Link href="/edicao">Editar Usuário</Link>
+                <Link href="/edit">Edit User</Link>
               </Button>
             </li>
             <li className={styles.li}>
               <Button>
-                <Link href="/perfil">Ver perfil</Link>
+                <Link href="/perfil">User Profile</Link>
               </Button>
             </li>
 
             <li className={styles.li}>
-              <Button onClick={handleDeleteUser}>Delete a Conta</Button>
+              <Button onClick={handleDeleteUser}>Delete Account</Button>
             </li>
 
             <li className={styles.li}>
@@ -75,7 +75,7 @@ export default function Navbar() {
             </li>
             <li className={styles.li}>
               <Button>
-                <Link href="/register">Cadastro</Link>
+                <Link href="/register">Sing Up</Link>
               </Button>
             </li>
           </>

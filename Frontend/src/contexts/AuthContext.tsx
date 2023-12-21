@@ -176,9 +176,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       // Atualiza os dados do usuário após o login
       await recoverUserInformation();
 
-      Router.push("/perfil");
+      Router.push("/profile");
     } catch (error) {
-      alert("Login ou senha incorretos");
+      alert("Incorrect login or password.");
     }
   }
 

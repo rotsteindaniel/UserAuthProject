@@ -1,7 +1,6 @@
-/* Estilos para a barra de navegação */
 .nav {
-  background-color: #333; /* Cor de fundo da navbar */
-  color: #fff; /* Cor do texto */
+  background-color: #333;
+  color: #fff;
   padding: 1rem;
 }
 
