@@ -23,7 +23,7 @@ class GetUserProfileController {
         name, email, date, gender
       });
     } catch (error) {
-      throw new NotFoundError(error.message)     
+      throw new NotFoundError("User not found!")     
     }
   }
 }

@@ -14,8 +14,8 @@ class DeleteUserController {
 
       return response.json({ message: "User deleted successfully" });
     } catch (error) {
-      if (error instanceof NotFoundError) {
-       throw new NotFoundError(error.message);
+      if (error) {
+       throw new NotFoundError("User not found");
       }
     }
   }

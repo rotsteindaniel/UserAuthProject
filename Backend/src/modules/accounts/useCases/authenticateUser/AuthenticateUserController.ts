@@ -21,7 +21,7 @@ class AuthenticateUserController {
 
       return response.json(token);
     } catch (error) {
-        throw new BadRequestError(error.message);
+        throw new BadRequestError("Email or password incorrect!");
     }
   }
 }

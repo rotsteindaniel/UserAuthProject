@@ -36,7 +36,6 @@ class UsersRepositoryInMemory implements IUsersRepository {
     const index = this.users.findIndex((user) => user.id === updatedUser.id);
 
     if (index !== -1) {
-      // Substitua o usuário na posição encontrada com o usuário atualizado
       this.users[index] = updatedUser;
     }
   }
@@ -45,7 +44,6 @@ class UsersRepositoryInMemory implements IUsersRepository {
     const index = this.users.findIndex((user) => user.id === id);
 
     if (index !== -1) {
-      // Remova o usuário da posição encontrada
       this.users.splice(index, 1);
     }
   }
