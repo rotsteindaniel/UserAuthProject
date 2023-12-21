@@ -80,7 +80,7 @@ export default function Register() {
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <Input
             type="email"
-            placeholder="Your email"
+            placeholder="Email"
             name="email"
             autoComplete="email"
             register={register}
@@ -90,7 +90,7 @@ export default function Register() {
           )}
           <Input
             type="password"
-            placeholder="Your password"
+            placeholder="Password"
             name="password"
             autoComplete="new-password"
             register={register}
@@ -100,7 +100,7 @@ export default function Register() {
           )}
           <Input
             type="text"
-            placeholder="Your first and last name"
+            placeholder="First and last name"
             name="name"
             autoComplete="name"
             register={register}

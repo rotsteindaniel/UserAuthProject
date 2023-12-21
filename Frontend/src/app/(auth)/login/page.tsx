@@ -58,7 +58,7 @@ export default function Login() {
         <form className={styles.form} onSubmit={handleSubmit(handleSignIn)}>
           <Input
             type="email"
-            placeholder="Seu e-mail"
+            placeholder="Email"
             name="email"
             register={register}
           />
@@ -67,14 +67,14 @@ export default function Login() {
           )}
           <Input
             type="password"
-            placeholder="Your password"
+            placeholder="Password"
             name="password"
             register={register}
           />
           {errors.password && (
             <p style={{ color: "red" }}>{errors.password.message}</p>
           )}
-          <Button>Entrar</Button>
+          <Button>Login</Button>
           <Link href="/register" className={styles.register}>
             "Don't have an account?"
           </Link>
