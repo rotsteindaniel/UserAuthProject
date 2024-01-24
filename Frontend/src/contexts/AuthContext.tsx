@@ -6,7 +6,9 @@ import { useRouter } from "next/navigation";
 
 import axios from "axios";
 
-export const baseURL = "http://localhost:3333";
+// export const baseURL = "http://localhost:3333";
+
+export const baseURL = "user-auth-project-backend.vercel.app";
 
 type User = {
   email: string;
