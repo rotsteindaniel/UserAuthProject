@@ -8,8 +8,7 @@ import axios from "axios";
 
 // export const baseURL = "http://localhost:3333";
 
-export const baseURL =
-  "https://user-auth-project-backend-6y75qu2v8-daniels-projects-1701a84d.vercel.app/";
+export const baseURL = "user-auth-project-backend.vercel.app";
 
 type User = {
   email: string;
