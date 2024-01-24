@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 
 import axios from "axios";
 
+export const baseURL = "http://localhost:3333";
+
 type User = {
   email: string;
   name: string;
@@ -65,7 +67,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function signIn({ email, password }: SignInData) {
     try {
-      const response = await axios.post("http://localhost:3333/sessions", {
+      const response = await axios.post(`${baseURL}/sessions`, {
         email,
         password,
       });
@@ -98,7 +100,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   async function recoverUserInformation(): Promise<{ user: User }> {
     const { "nextauth.token": token } = parseCookies();
 
-    const response = await axios.get("http://localhost:3333/users/profile", {
+    const response = await axios.get(`${baseURL}/users/profile`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -115,7 +117,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const { "nextauth.token": token } = parseCookies();
 
     const response = await axios.post(
-      "http://localhost:3333/users",
+      `${baseURL}/users`,
       {
         email,
         password,
@@ -141,7 +143,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     try {
       const response = await axios.put(
-        "http://localhost:3333/users/profile/update",
+        `${baseURL}/users/profile/update`,
         {
           email,
           name,
@@ -170,14 +172,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const { "nextauth.token": token } = parseCookies();
 
     try {
-      const response = await axios.delete(
-        "http://localhost:3333/users/profile/delete",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.delete(`${baseURL}/users/profile/delete`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const { message } = await response.data;
       setIsLoading(false);

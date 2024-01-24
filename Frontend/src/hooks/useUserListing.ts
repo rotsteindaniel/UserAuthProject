@@ -1,3 +1,4 @@
+import { baseURL } from "@/contexts/AuthContext";
 import { useState, useEffect } from "react";
 
 interface User {
@@ -26,7 +27,7 @@ const useUserListing = (): UseUserListing => {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:3333/users");
+      const response = await fetch(`${baseURL}/users`);
       if (!response.ok) {
         throw new Error("Failed to fetch users");
       }
